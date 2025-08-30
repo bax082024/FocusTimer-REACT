@@ -1,8 +1,8 @@
 # Bax Focus — Pomodoro Timer (React + Vite)
 
-A clean, portable Pomodoro timer with dark/light themes, sound alert, configurable durations, and a simple activity log — all saved locally.
+A clean, Pomodoro timer with dark/light themes, sound alert, configurable durations, and a simple activity log — all saved locally.
 
-<img src="public/dark-preview.png" alt="1" width="100"> <img src="public/light-preview.png" alt="1" width="100">
+<img src="public/dark-preview.png" alt="1" width="200"> <img src="public/light-preview.png" alt="1" width="200">
 
 ## ✨ Features
 
@@ -22,9 +22,8 @@ A clean, portable Pomodoro timer with dark/light themes, sound alert, configurab
 
 ## 🚀 Quick start
 
-```bash
 # install
-npm i
+npm install
 
 # dev
 npm run dev
@@ -34,3 +33,23 @@ npm run build
 
 # preview the build (optional)
 npm run preview
+
+---
+
+🗂️ Project structure
+
+.
+├─ public/
+│  ├─ bg-dark.png           # background for dark theme
+│  ├─ bg-light.png          # background for light theme
+│  └─ favicon / assets …
+├─ src/
+│  ├─ components/
+│  │  ├─ ThemeToggle.jsx
+│  │  └─ Timer.jsx
+│  ├─ App.jsx
+│  ├─ main.jsx
+│  └─ styles.css
+├─ index.html
+├─ vite.config.js
+└─ package.json
