@@ -1,10 +1,10 @@
-# Bax Focus — Pomodoro Timer (React + Vite)
+# Bax Focus — Pomodoro Timer (React + Vite) [![Deploy](https://img.shields.io/badge/Live-Demo-2ea44f?style=for-the-badge)](https://bax082024.github.io/FocusTimer-REACT/)
 
 A clean, Pomodoro timer with dark/light themes, sound alert, configurable durations, and a simple activity log — all saved locally.
 
 <img src="public/dark-preview.png" alt="1" width="220"> <img src="public/light-preview.png" alt="1" width="220">
 
-[![Deploy](https://img.shields.io/badge/Live-Demo-2ea44f?style=for-the-badge)](https://bax082024.github.io/FocusTimer-REACT/)
+
 
 
 ## ✨ Features
