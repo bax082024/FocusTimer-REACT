@@ -15,7 +15,6 @@ const DEFAULTS = {
 };
 
 export default function App() {
-  // theme
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem(THEME_KEY);
     if (saved) return saved;
@@ -33,7 +32,6 @@ export default function App() {
   useEffect(() => localStorage.setItem(SOUND_KEY, soundOn ? "1" : "0"), [soundOn]);
 
 
-  // settings
   const [settings, setSettings] = useState(() => {
     try {
       const raw = localStorage.getItem(SETTINGS_KEY);
@@ -43,7 +41,6 @@ export default function App() {
   });
   useEffect(() => localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)), [settings]);
 
-  // session log
   const [log, setLog] = useState(() => {
     try { return JSON.parse(localStorage.getItem(LOG_KEY) || "[]"); } catch { return []; }
   });
