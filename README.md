@@ -67,3 +67,7 @@ npm run preview
 - Use the moon/sun toggle to switch theme
 
 ---
+
+🔒 Privacy
+
+All data (settings and logs) is stored only in your browser via `localStorage`.
