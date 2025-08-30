@@ -5,6 +5,7 @@ import Timer from "./components/Timer.jsx";
 const THEME_KEY = "focusflow:theme";
 const SETTINGS_KEY = "focusflow:settings";
 const LOG_KEY = "focusflow:log";
+const SOUND_KEY = "focusflow:sound";
 
 const DEFAULTS = {
   focus: 25,
@@ -24,6 +25,13 @@ export default function App() {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(THEME_KEY, theme);
   }, [theme]);
+
+  const [soundOn, setSoundOn] = useState(() => {
+    const raw = localStorage.getItem(SOUND_KEY);
+    return raw === null ? true : raw === "1";
+  });
+  useEffect(() => localStorage.setItem(SOUND_KEY, soundOn ? "1" : "0"), [soundOn]);
+
 
   // settings
   const [settings, setSettings] = useState(() => {
@@ -61,7 +69,17 @@ export default function App() {
         <p className="subtitle">Pomodoro timer — React + Vite</p>
         <div className="header-controls">
           <ThemeToggle theme={theme} onToggle={() => setTheme(t => (t === "dark" ? "light" : "dark"))} />
+          <button
+            className="icon-btn"
+            onClick={() => setSoundOn(s => !s)}
+            aria-pressed={soundOn}
+            title={soundOn ? "Sound on" : "Sound off"}
+            type="button"
+          >
+            {soundOn ? "🔔" : "🔕"}
+          </button>
         </div>
+
       </header>
 
       <main>
@@ -74,7 +92,8 @@ export default function App() {
               onChange={v => setSettings(s => ({...s, cyclesBeforeLong:v}))} />
           </div>
 
-          <Timer settings={settings} onSessionComplete={onSessionComplete} />
+          <Timer settings={settings} onSessionComplete={onSessionComplete} soundOn={soundOn} />
+
         </section>
 
         <section className="log panel">
