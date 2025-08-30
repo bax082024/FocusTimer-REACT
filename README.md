@@ -2,7 +2,7 @@
 
 A clean, Pomodoro timer with dark/light themes, sound alert, configurable durations, and a simple activity log — all saved locally.
 
-<img src="public/dark-preview.png" alt="1" width="200"> <img src="public/light-preview.png" alt="1" width="200">
+<img src="public/dark-preview.png" alt="1" width="220"> <img src="public/light-preview.png" alt="1" width="220">
 
 ## ✨ Features
 
@@ -22,17 +22,17 @@ A clean, Pomodoro timer with dark/light themes, sound alert, configurable durati
 
 ## 🚀 Quick start
 
-# install
-npm install
+**install**
+- npm install
 
-# dev
-npm run dev
+**dev**
+- npm run dev
 
-# build
-npm run build
+**build**
+- npm run build
 
-# preview the build (optional)
-npm run preview
+**preview the build (optional)**
+- npm run preview
 
 ---
 
