@@ -32,15 +32,12 @@
 
 html, body{ height:100%; }
 
-/* Use the exported PNGs from /public */
-/* Dark (default) */
 html{
   background:
     url("/bg-dark.png") center / cover no-repeat fixed,
     var(--bg);
 }
 
-/* Light override — note the selector */
 html[data-theme="light"]{
   background:
     url("/bg-light.png") center / cover no-repeat fixed,
