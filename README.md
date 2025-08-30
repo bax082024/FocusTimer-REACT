@@ -61,6 +61,3 @@ A clean, Pomodoro timer with dark/light themes, sound alert, configurable durati
 
 All data (settings and logs) is stored only in your browser via `localStorage`.
 
-## Preview Link
-
-- https://bax082024.github.io/FocusTimer-REACT/
