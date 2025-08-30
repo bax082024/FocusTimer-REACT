@@ -38,21 +38,7 @@ A clean, Pomodoro timer with dark/light themes, sound alert, configurable durati
 
 🗂️ Project structure
 
-.
-├─ public/
-│  ├─ bg-dark.png           # background for dark theme
-│  ├─ bg-light.png          # background for light theme
-│  └─ favicon / assets …
-├─ src/
-│  ├─ components/
-│  │  ├─ ThemeToggle.jsx
-│  │  └─ Timer.jsx
-│  ├─ App.jsx
-│  ├─ main.jsx
-│  └─ styles.css
-├─ index.html
-├─ vite.config.js
-└─ package.json
+<img src="public/structure.png" alt="1" width="260">
 
 ---
 
