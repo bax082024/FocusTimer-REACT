@@ -53,3 +53,17 @@ npm run preview
 ├─ index.html
 ├─ vite.config.js
 └─ package.json
+
+---
+
+## Controls
+
+- Click Start / Reset to control the timer
+
+- Click Focus / Short / Long tabs to switch modes
+
+- Use the bell icon to toggle sound
+
+- Use the moon/sun toggle to switch theme
+
+---
