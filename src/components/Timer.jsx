@@ -9,7 +9,7 @@ const MODES = {
 export default function Timer({
   settings,                // {focus, short, long, cyclesBeforeLong}
   onSessionComplete,       // (session) => void
-  soundOn = true,          // NEW: play beep when a session ends
+  soundOn = true,          // play chime on session end
 }) {
   const [mode, setMode] = useState("focus");
   const [isRunning, setIsRunning] = useState(false);
@@ -18,41 +18,71 @@ export default function Timer({
   const [left, setLeft] = useState(totalSec);
   const startedAtRef = useRef(null);
 
-  // ---- AudioContext (primed on Start) ----
+  // ---- Web Audio (robust) ----
   const audioCtxRef = useRef(null);
   function ensureCtx() {
     if (!audioCtxRef.current) {
       const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
       audioCtxRef.current = new Ctx();
     }
-    // resume in case it was auto-suspended
+    // on some browsers the context auto-suspends; resume every time
     audioCtxRef.current.resume?.();
     return audioCtxRef.current;
   }
+
+  // small three-note chime (C6 → E6 → G6)
   function beepPattern() {
+    if (!soundOn) return;
     const ctx = ensureCtx();
+    if (!ctx) return;
+
     const now = ctx.currentTime;
 
-    // small 3-tone "ding"
-    const play = (offset, freq, dur = 0.14, gain = 0.8) => {
-      const o = ctx.createOscillator();
+    const play = (offset, freq, dur = 0.16, gain = 0.9) => {
+      const osc = ctx.createOscillator();
       const g = ctx.createGain();
-      o.type = "sine";
-      o.frequency.value = freq;
-      o.connect(g); g.connect(ctx.destination);
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      osc.connect(g);
+      g.connect(ctx.destination);
 
+      // quick fade in/out to avoid clicks
       g.gain.setValueAtTime(0.0001, now + offset);
-      g.gain.linearRampToValueAtTime(gain, now + offset + 0.01);
+      g.gain.linearRampToValueAtTime(gain, now + offset + 0.02);
       g.gain.exponentialRampToValueAtTime(0.0001, now + offset + dur);
 
-      o.start(now + offset);
-      o.stop(now + offset + dur + 0.02);
+      osc.start(now + offset);
+      osc.stop(now + offset + dur + 0.02);
     };
 
-    play(0.00, 1046);  // C6
-    play(0.18, 1318);  // E6
-    play(0.36, 1568, 0.18); // G6 (slightly longer)
+    play(0.00, 1046);          // C6
+    play(0.20, 1318);          // E6
+    play(0.40, 1568, 0.22);    // G6 (slightly longer)
   }
+
+  // Prime audio on first Start (counts as a user gesture)
+  const primedRef = useRef(false);
+  function primeAudio() {
+    if (primedRef.current) return;
+    const ctx = ensureCtx();
+    if (!ctx) return;
+    // create a silent tick so the context is "used" during the gesture
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    g.gain.value = 0.0001;
+    o.connect(g); g.connect(ctx.destination);
+    o.start();
+    o.stop(ctx.currentTime + 0.01);
+    primedRef.current = true;
+  }
+
+  // resume the context if the tab was backgrounded
+  useEffect(() => {
+    const fn = () => audioCtxRef.current?.resume?.();
+    document.addEventListener("visibilitychange", fn);
+    return () => document.removeEventListener("visibilitychange", fn);
+  }, []);
 
   // reset left whenever settings/mode changes (if not running)
   useEffect(() => { if (!isRunning) setLeft(totalSec); }, [totalSec, isRunning]);
@@ -69,9 +99,7 @@ export default function Timer({
     if (left !== 0 || !isRunning) return;
 
     // play beep
-    if (soundOn) {
-      try { beepPattern(); } catch {}
-    }
+    try { beepPattern(); } catch {}
 
     const finished = {
       id: crypto.randomUUID(),
@@ -97,18 +125,17 @@ export default function Timer({
       setMode("focus");
     }
 
-    // reset time for next session
-    setTimeout(() => setLeft(minsToSec(settings[mode === "focus"
-      ? (cycle + 1 > settings.cyclesBeforeLong ? "long" : "short")
-      : "focus"])), 0);
+    // set time for next session
+    setTimeout(() => setLeft(minsToSec(settings[
+      mode === "focus" ? (cycle + 1 > settings.cyclesBeforeLong ? "long" : "short") : "focus"
+    ])), 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [left, isRunning]);
 
   function start() {
     if (left === 0) setLeft(totalSec);
     if (!isRunning) startedAtRef.current = Date.now();
-    // prime audio on user gesture
-    try { ensureCtx(); } catch {}
+    primeAudio();   // <-- important
     setIsRunning(true);
   }
   function pause() { setIsRunning(false); }
