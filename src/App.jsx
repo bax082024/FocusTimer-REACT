@@ -121,7 +121,7 @@ export default function App() {
       </main>
 
       <footer className="app__footer">
-        <span>Built with ❤️ using React</span>
+        <span>Built by Bax using React</span>
       </footer>
     </div>
   );
