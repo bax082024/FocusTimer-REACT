@@ -2,7 +2,7 @@
 
 A clean, portable Pomodoro timer with dark/light themes, sound alert, configurable durations, and a simple activity log — all saved locally.
 
-![preview](./public/dark-preview.png) ![preview](./public/light-preview.png)
+![preview](./public/dark-preview.png) <img src="public/light-preview.png" alt="1" width="40">
 
 ## ✨ Features
 
